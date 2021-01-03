@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Question from './question/Question';
 import Answer from './answer/Answer';
 import './QuizMain.css';
+import { Redirect } from "react-router-dom";
+
 
 export default class Quiz extends Component {
 
@@ -51,7 +53,8 @@ export default class Quiz extends Component {
         correctAnswer: 0,
         clickedAnswer: 0,
         step: 1,
-        score: 0
+        score: 0,
+        redirect: false
     }
 
     // the method that checks the correct answer
@@ -81,7 +84,7 @@ export default class Quiz extends Component {
     }
 
     render() {
-        let { quiestions, answers, correctAnswer, clickedAnswer, step, score } = this.state;
+        let { quiestions, answers, correctAnswer, clickedAnswer, step, score, redirect } = this.state;
         return (
             <div className="Content">
                 {step <= Object.keys(quiestions).length ?
@@ -108,6 +111,13 @@ export default class Quiz extends Component {
                             <h1>You have completed the quiz!</h1>
                             <p>Your score is: {score} of {Object.keys(quiestions).length}</p>
                             <p>Thank you!</p>
+                            <button onClick={() => {
+                                this.setState({
+                                    redirect: true
+                                });
+                            }
+                            }>Back to HomePage</button>
+                            {redirect ? <Redirect to="/" /> : null}
                         </div>
                     )
                 }
